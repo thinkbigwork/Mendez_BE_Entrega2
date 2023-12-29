@@ -1,14 +1,6 @@
 const fs = require('fs')
 
-function save(path, products) {
-    fs.promises.writeFile(path, JSON.stringify(products), 'utf-8')
-      .then(res => {
-        console.log("El producto se guardo ok");
-      })
-      .catch(err => {
-        console.log(`Algo salio mal :(, error: ${err}`);
-      })
-  }
+
 
 //Creacion de la clase de productos
 class ProductManager{
@@ -158,26 +150,24 @@ updateProduct(id, title, description, price, thumbnail, code, stock) {
       }
     )()
   }
-
 }
+
+function save(param_path, param_products) {
+    fs.promises.writeFile(param_path, JSON.stringify(param_products), 'utf-8')
+      .then(res => {
+        console.log("Producto guardado correctamente");
+      })
+      .catch(err => {
+        console.log(`Hubo un error: ${err}`);
+      })
+  }
+
 
 const bd = new ProductManager()
 
 
 
-// FUncion para simular carga de productos
-loadProducts()
-
-// Mostrar todos array completo
-const listProducts = bd.getProducts();
-console.log('-----Listado completo de productos-----', listProducts);
-
-// Mostrar un producto buscado por id
-const productId = bd.getProductsId(3);
-console.log('-----Producto buscado por ID-----', productId);
-
-
-function loadProducts() {
+// FUncion para "carga" de productos
 bd.addProduct({
     title: 'Manzana',
     description: 'Manzana roja grande',
@@ -202,16 +192,18 @@ bd.addProduct({
     code: codeGenerator(),
     stock: 78
 })
-bd.addProduct({
-    title: 'Melon',
-    description: 'Melon amarillo',
-    price: 1530,
-    thumbnail: '../archivo4.jpg',
-    code: codeGenerator(),
-    stock: 11
-})
-}
 
+
+// Mostrar todos array completo
+const listProducts = bd.getProducts();
+console.log('-----Listado completo de productos-----', listProducts);
+
+// Actualizar producto
+pm.updateProduct(2, 'Pera', 'Pera de Argentina', 34, '../archivo2.jpg', eiu423, 4);
+
+// Mostrar un producto buscado por id
+const productId = bd.getProductsId(3);
+console.log('-----Producto buscado por ID-----', productId);
 
 function codeGenerator (){
 let code = Math.random().toString(36).substring(3, 9)
